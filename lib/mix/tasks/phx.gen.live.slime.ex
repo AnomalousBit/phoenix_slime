@@ -144,7 +144,7 @@ defmodule Mix.Tasks.Phx.Gen.Live.Slime do
 
   defp copy_new_files(%Context{} = context, binding, paths) do
     files = files_to_be_generated(context)
-    Mix.Phoenix.copy_from(paths, "priv/templates/phx.gen.live", binding, files)
+    Mix.Phoenix.copy_from(paths, "priv/templates/phx.gen.live.slime", binding, files)
     if context.generate?, do: Gen.Context.copy_new_files(context, paths, binding)
 
     context
