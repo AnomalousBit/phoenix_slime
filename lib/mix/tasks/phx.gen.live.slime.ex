@@ -187,34 +187,6 @@ defmodule Mix.Tasks.Phx.Gen.Live.Slime do
     end
   end
 
-  @doc false
-  def print_shell_instructions(%Context{schema: schema, context_app: ctx_app} = context) do
-    prefix = Module.concat(context.web_module, schema.web_namespace)
-    web_path = Mix.Phoenix.web_path(ctx_app)
-
-    if schema.web_namespace do
-      Mix.shell().info """
-
-      Add the live routes to your #{schema.web_namespace} :browser scope in #{web_path}/router.ex:
-
-          scope "/#{schema.web_path}", #{inspect prefix}, as: :#{schema.web_path} do
-            pipe_through :browser
-            ...
-
-      #{for line <- live_route_instructions(schema), do: "      #{line}"}
-          end
-      """
-    else
-      Mix.shell().info """
-
-      Add the live routes to your browser scope in #{Mix.Phoenix.web_path(ctx_app)}/router.ex:
-
-      #{for line <- live_route_instructions(schema), do: "    #{line}"}
-      """
-    end
-    if context.generate?, do: Gen.Context.print_shell_instructions(context)
-  end
-
   defp live_route_instructions(schema) do
     [
       ~s|live "/#{schema.plural}", #{inspect(schema.alias)}Live.Index, :index\n|,
