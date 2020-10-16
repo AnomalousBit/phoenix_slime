@@ -4,7 +4,7 @@
             .fa.fad.fa-folder.text-primary.mr-3
             | Listing <%= schema.human_plural %>
             .d-inline.ml-4
-              = live_patch to: Routes.purchase_order_index_path(@socket, :new), class: 'btn btn-primary rounded-circle p-0', style: "height: 2.5rem; width: 2.5rem; font-size: 1.65rem;" do
+              = live_patch to: Routes.<%= schema.route_helper %>_index_path(@socket, :new), class: 'btn-circle btn-primary' do
                 .fa.fal.fa-plus style="margin-right: 0 !important;"
 
           = if @live_action in [:new, :edit] do
