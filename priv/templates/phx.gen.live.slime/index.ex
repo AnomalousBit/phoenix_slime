@@ -42,6 +42,16 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
     {:noreply, assign(socket, :<%= schema.collection %>, list_<%=schema.plural %>())}
   end
 
+  def handle_event("show", %{"id" => id}, socket) do
+    <%= schema.singular %> = <%= inspect context.alias %>.get_<%= schema.singular %>!(id)
+    {:noreply, push_redirect(socket, to: Routes.<%= schema.route_helper %>_show_path(socket, :show, <%= schema.singular %>))}
+  end
+
+  def handle_event("edit", %{"id" => id}, socket) do
+    <%= schema.singular %> = <%= inspect context.alias %>.get_<%= schema.singular %>!(id)
+    {:noreply, push_patch(socket, to: Routes.<%= schema.route_helper %>_show_path(socket, :edit, <%= schema.singular %>))}
+  end
+
   defp list_<%= schema.plural %> do
     <%= inspect context.alias %>.list_<%= schema.plural %>()
   end
