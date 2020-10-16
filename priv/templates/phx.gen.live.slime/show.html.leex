@@ -17,7 +17,7 @@
     <% end %>
 
     .input-show-buttons
-      = live_patch to: Routes.to: Routes.<%= schema.route_helper %>_show_path(@socket, :edit, @<%= schema.singular %>), class: "btn btn-primary" do
+      = live_patch to: Routes.<%= schema.route_helper %>_show_path(@socket, :edit, @<%= schema.singular %>), class: "btn btn-primary" do
         .fa.fal.fa-pencil
         | Edit
 

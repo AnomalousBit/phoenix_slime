@@ -91,14 +91,14 @@ defmodule Mix.Tasks.Phx.Gen.Live.Slime do
   @doc false
   def run(args) do
     if Mix.Project.umbrella?() do
-      Mix.raise "mix phx.gen.live.slime must be invoked from within your *_web application root directory"
+      Mix.raise "mix phx.gen.live must be invoked from within your *_web application root directory"
     end
 
     {context, schema} = Gen.Context.build(args)
     Gen.Context.prompt_for_code_injection(context)
 
     binding = [context: context, schema: schema, inputs: Gen.Html.inputs(schema)]
-    paths = [".", :phoenix_slime, :phoenix]
+    paths = Mix.Phoenix.generator_paths()
 
     prompt_for_conflicts(context)
 
@@ -114,11 +114,9 @@ defmodule Mix.Tasks.Phx.Gen.Live.Slime do
     |> Kernel.++(context_files(context))
     |> Mix.Phoenix.prompt_for_conflicts()
   end
-
   defp context_files(%Context{generate?: true} = context) do
     Gen.Context.files_to_be_generated(context)
   end
-
   defp context_files(%Context{generate?: false}) do
     []
   end
@@ -187,6 +185,34 @@ defmodule Mix.Tasks.Phx.Gen.Live.Slime do
       and that both functions import #{inspect(context.web_module)}.LiveHelpers.
       """
     end
+  end
+
+  @doc false
+  def print_shell_instructions(%Context{schema: schema, context_app: ctx_app} = context) do
+    prefix = Module.concat(context.web_module, schema.web_namespace)
+    web_path = Mix.Phoenix.web_path(ctx_app)
+
+    if schema.web_namespace do
+      Mix.shell().info """
+
+      Add the live routes to your #{schema.web_namespace} :browser scope in #{web_path}/router.ex:
+
+          scope "/#{schema.web_path}", #{inspect prefix}, as: :#{schema.web_path} do
+            pipe_through :browser
+            ...
+
+      #{for line <- live_route_instructions(schema), do: "      #{line}"}
+          end
+      """
+    else
+      Mix.shell().info """
+
+      Add the live routes to your browser scope in #{Mix.Phoenix.web_path(ctx_app)}/router.ex:
+
+      #{for line <- live_route_instructions(schema), do: "    #{line}"}
+      """
+    end
+    if context.generate?, do: Gen.Context.print_shell_instructions(context)
   end
 
   defp live_route_instructions(schema) do
