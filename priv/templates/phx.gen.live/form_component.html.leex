@@ -1,15 +1,31 @@
-h2 = @title
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      .modal-title
+        = if assigns[:modal_icon] do
+          .d-inline
+            .fa.fad.text-primary.mr-3 class=@modal_icon
+        h4.d-inline.mb-0 = @title
+      = live_patch raw("<div class='fa fal fa-2x fa-times text-secondary'></div>"), to: @return_to, class: "phx-modal-close"
 
-= f = form_for @changeset, "#",
-  id: "<%= schema.singular %>-form",
-  phx_target: @myself,
-  phx_change: "validate",
-  phx_submit: "save"
+    = f = form_for @changeset, "#", id: "<%= schema.singular %>-form", phx_target: @myself, phx_change: "validate", phx_submit: "save"
+      .modal-body
+        .row.text-center
+          .col-12.mb-3
+            | Please fill out each section of the form below then click
+            span.text-primary &nbsp;Save
+            |  to complete.
 
-  <%= for {label, input, error} <- inputs, input do %>
-    <%= label %>
-    <%= input %>
-    <%= error %>
-  <% end %>
-  
-  = submit "Save", phx_disable_with: "Saving..."
+        <%= for {label, input, error} <- inputs, input do %>
+          .modal-row
+            .modal-form-group
+              <%= label %>
+              <%= input %>
+              <%= error %>
+        <% end %>
+
+      .modal-footer
+        .form-group
+          button.btn.btn-primary type='submit' phx-disable-with="Saving..."
+            .fa.fal.fa-save.mr-2
+            | Save

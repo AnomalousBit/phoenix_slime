@@ -163,36 +163,36 @@ defmodule Mix.Tasks.Phx.Gen.Html.Slime do
         {nil, nil, nil}
 
       {key, :integer} ->
-        {label(key), ~s(= number_input f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= number_input f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, :float} ->
-        {label(key), ~s(= number_input f, #{inspect(key)}, step: "any", class: "form-control"),
+        {label(key), ~s(= number_input f, #{inspect(key)}, step: "any", class: "form-control", autocomplete: "off"),
          error(key)}
 
       {key, :decimal} ->
-        {label(key), ~s(= number_input f, #{inspect(key)}, step: "any", class: "form-control"),
+        {label(key), ~s(= number_input f, #{inspect(key)}, step: "any", class: "form-control", autocomplete: "off"),
          error(key)}
 
       {key, :boolean} ->
-        {label(key), ~s(= checkbox f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= checkbox f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, :text} ->
-        {label(key), ~s(= textarea f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= textarea f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, :date} ->
-        {label(key), ~s(= date_select f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= date_select f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, :time} ->
-        {label(key), ~s(= time_select f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= time_select f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, :utc_datetime} ->
-        {label(key), ~s(= datetime_select f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= datetime_select f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, :naive_datetime} ->
-        {label(key), ~s(= datetime_select f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= datetime_select f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
 
       {key, _} ->
-        {label(key), ~s(= text_input f, #{inspect(key)}, class: "form-control"), error(key)}
+        {label(key), ~s(= text_input f, #{inspect(key)}, class: "form-control", autocomplete: "off"), error(key)}
     end)
   end
 

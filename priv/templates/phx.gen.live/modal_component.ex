@@ -4,17 +4,15 @@ defmodule <%= inspect context.web_module %>.ModalComponent do
   @impl true
   def render(assigns) do
     ~L"""
-    <div id="<%%= @id %>" class="phx-modal"
+    <div id="<%%= @id %>" class="phx-modal modal fade"
       phx-capture-click="close"
       phx-window-keydown="close"
       phx-key="escape"
       phx-target="#<%%= @id %>"
-      phx-page-loading>
+      phx-page-loading
+      phx-hook="Modal">
 
-      <div class="phx-modal-content">
-        <%%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close" %>
-        <%%= live_component @socket, @component, @opts %>
-      </div>
+      <%= live_component @socket, @component, @opts %>
     </div>
     """
   end

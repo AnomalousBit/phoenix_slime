@@ -1,4 +1,29 @@
-h1 Show <%= schema.human_singular %>
+.card
+  .card-body
+
+    h2
+      .fa.fad.fa-flask-potion.text-primary.mr-3
+      | Show <%= schema.human_singular %>
+      .d-inline.ml-4
+        = live_patch to: Routes.<%= schema.route_helper %>_show_path(@socket, :edit, @<%= schema.singular %>), class: 'btn-circle btn-primary' do
+          .fa.fal.fa-pencil style="margin-right: 0 !important;"
+
+    <%= for {k, _} <- schema.attrs do %>
+    .input-show
+      .input-group-prepend
+        .input-group-text <%= Phoenix.Naming.humanize(Atom.to_string(k)) %>
+      .input-group-append
+        .input-group-text = @<%= schema.singular %>.<%= k %>
+    <% end %>
+
+    .input-show-buttons
+      = live_patch to: Routes.to: Routes.<%= schema.route_helper %>_show_path(@socket, :edit, @<%= schema.singular %>), class: "btn btn-primary" do
+        .fa.fal.fa-pencil
+        | Edit
+
+      = live_redirect to: Routes.<%= schema.route_helper %>_index_path(@socket, :index), class: "btn btn-primary" do
+        .fa.fal.fa-chevron-left
+        | Back
 
 = if @live_action in [:edit] do
   = live_modal @socket, <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web_namespace, schema.alias) %>Live.FormComponent,
@@ -7,15 +32,3 @@ h1 Show <%= schema.human_singular %>
     action: @live_action,
     <%= schema.singular %>: @<%= schema.singular %>,
     return_to: Routes.<%= schema.route_helper %>_show_path(@socket, :show, @<%= schema.singular %>)
-
-
-ul
-
-  <%= for {k, _} <- schema.attrs do %>
-  li
-    strong <%= Phoenix.Naming.humanize(Atom.to_string(k)) %>: 
-    = @<%= schema.singular %>.<%= k %>
-  <% end %>
-
-span = live_patch "Edit", to: Routes.<%= schema.route_helper %>_show_path(@socket, :edit, @<%= schema.singular %>), class: "button"
-span = live_redirect "Back", to: Routes.<%= schema.route_helper %>_index_path(@socket, :index)

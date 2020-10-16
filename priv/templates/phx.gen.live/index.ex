@@ -16,12 +16,14 @@ defmodule <%= inspect context.web_module %>.<%= inspect Module.concat(schema.web
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
+    |> assign(:modal_icon, "fa-flask-potion")
     |> assign(:page_title, "Edit <%= schema.human_singular %>")
     |> assign(:<%= schema.singular %>, <%= inspect context.alias %>.get_<%= schema.singular %>!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
+    |> assign(:modal_icon, "fa-flask-potion")
     |> assign(:page_title, "New <%= schema.human_singular %>")
     |> assign(:<%= schema.singular %>, %<%= inspect schema.alias %>{})
   end
