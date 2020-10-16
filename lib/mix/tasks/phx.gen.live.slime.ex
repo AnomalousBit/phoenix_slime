@@ -97,7 +97,7 @@ defmodule Mix.Tasks.Phx.Gen.Live.Slime do
     {context, schema} = Gen.Context.build(args)
     Gen.Context.prompt_for_code_injection(context)
 
-    binding = [context: context, schema: schema, inputs: Gen.Html.inputs(schema)]
+    binding = [context: context, schema: schema, inputs: inputs(schema)]
     paths = [".", :phoenix_slime, :phoenix]
 
     prompt_for_conflicts(context)
