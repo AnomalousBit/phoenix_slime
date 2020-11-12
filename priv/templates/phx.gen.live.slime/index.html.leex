@@ -31,7 +31,7 @@
                   td = <%= schema.singular %>.<%= k %>
                   <% end %>
                   td.text-center
-                    = live_redirect to: Routes.<%= schema.route_helper %>_index_path(@socket, :edit, purchase_order), class: "btn btn-sm btn-primary my-0 mr-3" do
+                    = live_redirect to: Routes.<%= schema.route_helper %>_index_path(@socket, :edit, <%= schema.singular %>), class: "btn btn-sm btn-primary my-0 mr-3" do
                       .fa.fal.fa-pencil
                       | Edit
                     = link to: "#", phx_click: "delete", phx_value_id: <%= schema.singular %>.id, data: [confirm: "Are you sure?"], class: 'btn btn-sm btn-outline-secondary' do
